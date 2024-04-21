@@ -30,7 +30,6 @@ fs.readFile(filePath, (err, data) => {
   if (err) {
     throw err;
   }
-  //What is "writeHead", "write", "end" and "listen"? What do they do? Why "200" What is that? What is response and what does it do?
   response.writeHead(200, { "Content-Type": "text/html" });
   reponse.write(data);
   response.end();
