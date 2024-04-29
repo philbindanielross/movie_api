@@ -1,13 +1,17 @@
+//Variables
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
 
+//app use
 app.use(morgan("common"));
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
+app.use(express.static("public"));
 
+// JSON objects
 let movies = [
   {
     title: "Les Miserables",
@@ -39,6 +43,7 @@ let movies = [
   },
 ];
 
+//app get
 app.get("/", (req, res) => {
   res.send(`Welcome to my movies API for a list of movie JSON objects!`);
 });
@@ -51,6 +56,7 @@ app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
+//app listen
 app.listen(8080, () => {
   console.log("Your app is listening on port 8080.");
 });
