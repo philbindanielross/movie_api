@@ -27,7 +27,8 @@ let movies = [
     },
     genre: {
       name: "drama",
-      description: "",
+      description:
+        "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
     },
     year: 1998,
     actors: ["Liam Neeson", "Geoffrey Rush", "Uma Therman", "Claire Danes"],
@@ -42,7 +43,18 @@ let movies = [
       born: 1965,
       movies: ["The Bourne Identity", "Swingers", "Mr and Mrs Smith"],
     },
-    genre: [{ name: "action" }, { name: "thriller" }],
+    genre: [
+      {
+        name: "action",
+        description:
+          "Adventure fiction is a type of fiction that usually presents danger, or gives the reader a sense of excitement.",
+      },
+      {
+        name: "thriller",
+        description:
+          "A thriller is a type of mystery with a few key differences. As its name suggests, thrillers tend to be action-packed, page-turners with moments full of tension, anxiety, and fear. Without fail, they are plot-driven stories with plenty of plot twists.",
+      },
+    ],
     year: 2002,
     actors: ["Matt Damon", "Franka Potente", "Chris Cooper"],
     description:
@@ -56,7 +68,18 @@ let movies = [
       born: 1959,
       movies: ["Nightcrawler", "The Bourne Legacy"],
     },
-    genre: ["drama", "thriller"],
+    genre: [
+      {
+        name: "drama",
+        description:
+          "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+      },
+      {
+        name: "thriller",
+        description:
+          "A thriller is a type of mystery with a few key differences. As its name suggests, thrillers tend to be action-packed, page-turners with moments full of tension, anxiety, and fear. Without fail, they are plot-driven stories with plenty of plot twists.",
+      },
+    ],
     year: 2014,
     actors: ["Jake Gyllenhaal"],
     description:
@@ -70,7 +93,11 @@ let movies = [
       born: 1985,
       movies: ["Whiplash", "La La Land", "Babylon"],
     },
-    genre: "drama",
+    genre: {
+      name: "drama",
+      description:
+        "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+    },
     year: 2014,
     actors: ["Miles Teller", "J. K. Simmons"],
     description:
@@ -84,7 +111,18 @@ let movies = [
       born: 1886,
       movies: ["Casablanca", "Captain Blood", "The Sea Wolf"],
     },
-    genre: ["drama", "romance"],
+    genre: [
+      {
+        name: "drama",
+        description:
+          "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+      },
+      {
+        name: "romance",
+        description:
+          "Romance primarily focuses on the relationship and romantic love between two people, typically with an emotionally satisfying and optimistic ending.",
+      },
+    ],
     year: 1942,
     actors: ["Humphrey Bogart", "Ingrid Bergman"],
     description:
@@ -103,7 +141,18 @@ let movies = [
         "Being John Malkovich",
       ],
     },
-    genre: ["drama", "comdedy"],
+    genre: [
+      {
+        name: "drama",
+        description:
+          "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+      },
+      {
+        name: "comedy",
+        description:
+          "Comedy is a genre of fiction that consists of discourses or works intended to be humorous or amusing by inducing laughter",
+      },
+    ],
     year: 2002,
     actors: ["Nicholas Cage", "Merryl Streep", "Chris Cooper"],
     description:
@@ -121,7 +170,23 @@ let movies = [
         "Science of Sleep",
       ],
     },
-    genre: ["drama", "romance", "sci-fi"],
+    genre: [
+      {
+        name: "drama",
+        description:
+          "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+      },
+      {
+        name: "romance",
+        description:
+          "Romance primarily focuses on the relationship and romantic love between two people, typically with an emotionally satisfying and optimistic ending.",
+      },
+      {
+        name: "sci-fi",
+        description:
+          "Science fiction (sometimes shortened to SF or sci-fi) is a genre of speculative fiction, which typically deals with imaginative and futuristic concepts such as advanced science and technology, space exploration, time travel, parallel universes, and extraterrestrial life.",
+      },
+    ],
     year: 2004,
     actors: [
       "Jim Carey",
@@ -146,7 +211,18 @@ let movies = [
         "Yesterday",
       ],
     },
-    genre: ["drama", "romance"],
+    genre: [
+      {
+        name: "drama",
+        description:
+          "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+      },
+      {
+        name: "romance",
+        description:
+          "Romance primarily focuses on the relationship and romantic love between two people, typically with an emotionally satisfying and optimistic ending.",
+      },
+    ],
     year: 2008,
     actors: ["Dev Patel"],
     description:
@@ -160,7 +236,22 @@ let movies = [
       born: 1956,
       movies: ["Central Station", "The Motorcycle Diaries"],
     },
-    genre: ["adventure", "biography", "drama"],
+    genre: [
+      {
+        name: "drama",
+        description:
+          "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+      },
+      {
+        name: "biography",
+        description: "A biography is simply the story of a real person's life",
+      },
+      {
+        name: "adventure",
+        description:
+          "Adventure fiction is a type of fiction that usually presents danger, or gives the reader a sense of excitement.",
+      },
+    ],
     year: 2004,
     actors: ["Gael Garcia Bernal", "Rodrigo de la Serna", "Mia Maestro"],
     description:
@@ -181,7 +272,18 @@ let movies = [
         "Boyhood",
       ],
     },
-    genre: ["drama", "romance"],
+    genre: [
+      {
+        name: "drama",
+        description:
+          "drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone",
+      },
+      {
+        name: "romance",
+        description:
+          "Romance primarily focuses on the relationship and romantic love between two people, typically with an emotionally satisfying and optimistic ending.",
+      },
+    ],
     year: 1995,
     actors: ["Ethan Hawke", "Julie Delpy"],
     description:
@@ -195,7 +297,18 @@ let movies = [
       born: [1965, 1967],
       movies: ["The Matrix", "The Matrix Reloaded", "The Matrix Revolution"],
     },
-    genre: ["action", "sci-fi"],
+    genre: [
+      {
+        name: "action",
+        description:
+          "Adventure fiction is a type of fiction that usually presents danger, or gives the reader a sense of excitement.",
+      },
+      {
+        name: "sci-fi",
+        description:
+          "Science fiction (sometimes shortened to SF or sci-fi) is a genre of speculative fiction, which typically deals with imaginative and futuristic concepts such as advanced science and technology, space exploration, time travel, parallel universes, and extraterrestrial life.",
+      },
+    ],
     year: 1999,
     actors: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
     description:
