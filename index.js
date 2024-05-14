@@ -340,6 +340,7 @@ app.post("/movies", (req, res) => {
   } else {
     newMovie.id = uuid.v4();
     movies.push(newMovie);
+    d;
     res.status(201).send(newMovie);
   }
 });
@@ -371,11 +372,13 @@ app.get("/genres", (req, res) => res.json(genres));
 
 // Find a specific genre by name
 app.get("/genres/:name", (req, res) => {
-  res.json(
-    genres.find((genre) => {
-      return genre.name === req.params.name;
-    })
-  );
+  const { genreName } = req.params;
+  const genre = movies.find((movie) => movie.Genre.Name === genreName).Genre;
+  if (genre) {
+    res.status(200).json(genre);
+  } else {
+    res.status(400).send("No such genre found");
+  }
 });
 
 // List of all directors
@@ -383,11 +386,15 @@ app.get("/directors", (req, res) => res.json(directors));
 
 // Find a specific director
 app.get("/directors/:name", (req, res) => {
-  res.json(
-    directors.find((genre) => {
-      return director.name === req.params.name;
-    })
-  );
+  const { directorName } = req.params;
+  const director = movies.find(
+    (movie) => movie.Director.Name === directorName
+  ).Director;
+  if (director) {
+    res.status(200).json(director);
+  } else {
+    res.status(400).send("no such director name");
+  }
 });
 // Add new user
 app.post("/users", (req, res) => {
