@@ -14,33 +14,32 @@
         POST: localhost:8080/movies (Add a new movie to the list) (title
         paramater) JSON
       </li>
+      <li></li>
       <li>
-        DELETE: localhost:8080/movies (Delete a movie from the list) (title
-        paramater JSON)
-      </li>
-      <li>
-        GET: localhost:8080/movies/uniqueID (Find a specific movie by title)
+        GET: localhost:8080/movies/:title (Find a specific movie by title)
         (title paramater) JSON
       </li>
       <li>
         GET: localhost:8080/genres (List of all genres)(genre name paramater)
         JSON
       </li>
-      <li>GET: localhost:8080/genre/uniqueID (A specific genre) JSON</li>
+      <li>GET: localhost:8080/genre/:name (A specific genre) JSON</li>
       <li>GET: localhost:8080/directors (List of all directors) JSON</li>
       <li>
-        GET: localhost:8080/directors/uniqueID (A specific director) (director
-        name paramater) JSON
+        GET: localhost:8080/directors/name (A specific director) (director name
+        paramater) JSON
       </li>
       <li>
         POST: localhost:8080/user (Add new user) (user name paramater) JSON
       </li>
+      <li>GET: localhost:8080/user/:username (find user by username) JSON</li>
       <li>
-        PUT: localhost:8080/user (Edit user password) (user password paramater)
-        JSON
+        PUT: localhost:8080/users/:username (Edit user information) (username
+        paramater) JSON
       </li>
       <li>
-        Delete: localhost:8080/user (Deregister) (user name paramater) JSON
+        Delete: localhost:8080/user/:username (Deregister) (username paramater)
+        JSON
       </li>
     </ol>
   </body>
