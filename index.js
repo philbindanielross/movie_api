@@ -22,6 +22,11 @@ app.use((err, req, res, next) => {
 });
 app.use(express.static("public"));
 
+//User authorization
+// let auth = require("./auth.js")(app);
+// const passport = require("passport");
+// require("./passport.js");
+
 // JSON objects
 // let movies = [
 //   {
@@ -438,9 +443,8 @@ app.get("/genres", async (req, res) => {
 });
 
 // Find a specific genre by name
-app.get("/genres/:name", async (req, res) => {
-  await Movies.genres
-    .findOne({ Name: req.params.Name })
+app.get("/genres/:genreName", async (req, res) => {
+  await Movies.find({ "Genre.Name": req.params.genreName })
     .then((genreName) => {
       res.status(201).json(genreName);
     })
@@ -490,9 +494,8 @@ app.get("/directors", async (req, res) => {
 //   }
 // });
 //new:
-app.get("/directors/:name", async (req, res) => {
-  await Movies.directors
-    .findOne({ Name: req.params.Name })
+app.get("/directors/:directorName", async (req, res) => {
+  await Movies.find({ "Director.Name": req.params.directorName })
     .then((directorName) => {
       res.status(201).json(directorName);
     })
@@ -615,13 +618,13 @@ app.post("/users/:username/movies/:MovieID", async (req, res) => {
 });
 
 // Delete user by username
-app.delete("/user/:username", async (req, res) => {
-  await Users.findOneAndRemove({ Username: req.params.Username })
+app.delete("/user/:Name", async (req, res) => {
+  await Users.findOneAndRemove({ name: req.params.name })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.Username + "was not found");
+        res.status(400).send(req.params.name + "was not found");
       } else {
-        res.status(200).send(req.params.Username + "was deleted");
+        res.status(200).send(req.params.name + "was deleted");
       }
     })
     .catch((err) => {
