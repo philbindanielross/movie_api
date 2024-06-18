@@ -519,10 +519,10 @@ app.get("/users", async (req, res) => {
 
 // Add new user
 app.post("/users", async (req, res) => {
-  await Users.findOne({ Username: req.body.Username })
+  await Users.findOne({ name: req.body.name })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + "already exists.");
+        return res.status(400).send(req.body.name + "already exists.");
       } else {
         Users.create({
           Username: req.body.Username,
@@ -542,7 +542,7 @@ app.post("/users", async (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).send("Error:" + error);
+      res.status(500).send("This is Daniel's error:" + error);
     });
 });
 //JUST SO I HAVE IT SOMEWHERE:
@@ -568,11 +568,12 @@ app.get("/users/:name", async (req, res) => {
 });
 
 // Edit user info
-app.put("/users/:Username", async (req, res) => {
+app.put("/users/:name", async (req, res) => {
   await Users.findOneAndUpdate(
-    { Username: req.params.Username },
+    { name: req.params.name },
     {
       $set: {
+        Name: req.body.Name,
         Username: req.body.Username,
         Password: req.body.Password,
         Email: req.body.Email,
@@ -600,9 +601,9 @@ app.put("/users/:Username", async (req, res) => {
 });
 
 //Add new movie to User's favorites:
-app.post("/users/:username/movies/:MovieID", async (req, res) => {
+app.post("/users/:name/movies/:MovieID", async (req, res) => {
   await Users.findOneAndUpdate(
-    { Username: req.params.Username },
+    { name: req.params.name },
     {
       $push: { favMovies: req.params.MovieID },
     },
@@ -618,13 +619,13 @@ app.post("/users/:username/movies/:MovieID", async (req, res) => {
 });
 
 // Delete user by username
-app.delete("/user/:name", async (req, res) => {
-  await Users.findOneAndRemove({ name: req.params.name })
+app.delete("/users/:name", async (req, res) => {
+  await Users.findOneAndDelete({ name: req.params.name })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.name + "was not found");
+        res.status(400).send(req.params.name + " was not found");
       } else {
-        res.status(200).send(req.params.name + "was deleted");
+        res.status(200).send(req.params.name + " was deleted");
       }
     })
     .catch((err) => {
