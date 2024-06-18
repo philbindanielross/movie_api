@@ -2,6 +2,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 
@@ -16,6 +17,8 @@ mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 
 //app use
 app.use(morgan("common"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
@@ -350,7 +353,7 @@ app.get("/movies", async (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Error:" + err);
+      res.status(500).send("Error: " + err);
     });
 });
 
@@ -372,7 +375,7 @@ app.post("/movies", async (req, res) => {
   await Movies.findOne({ Title: req.body.Title })
     .then((movie) => {
       if (movie) {
-        return res.status(400).send(req.body.Title + "already exists.");
+        return res.status(400).send(req.body.Title + " already exists.");
       } else {
         Movies.create({
           Title: req.body.Title,
@@ -399,14 +402,14 @@ app.post("/movies", async (req, res) => {
 
 // Delete a movie from the list
 app.delete("/movies/:title", (req, res) => {
-  let movie = movies.find((movie) => {
-    return movie.title === req.params.title;
+  let movie = Movies.find((movie) => {
+    return Movies.Title === req.params.title;
   });
   if (movie) {
-    movies = movies.filter((obj) => {
-      return obj.title !== req.params.title;
+    Movies = Movies.filter((obj) => {
+      return obj.Title !== req.params.title;
     });
-    res.status(201).send("Movie" + req.params.title + "was deleted.");
+    res.status(201).send("Movie" + req.params.Title + "was deleted.");
   }
 });
 
@@ -519,10 +522,11 @@ app.get("/users", async (req, res) => {
 
 // Add new user
 app.post("/users", async (req, res) => {
-  await Users.findOne({ name: req.body.name })
+  await Users.findOne({ Name: req.body.Name })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.name + "already exists.");
+        console.log(user);
+        return res.status(400).send(req.body.Name + " already exists.");
       } else {
         Users.create({
           Username: req.body.Username,
@@ -530,6 +534,7 @@ app.post("/users", async (req, res) => {
           Password: req.body.Password,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
+          FavoriteMovies: req.body.FavoriteMovies,
         })
           .then((user) => {
             res.status(201).json(user);
@@ -573,11 +578,12 @@ app.put("/users/:name", async (req, res) => {
     { name: req.params.name },
     {
       $set: {
-        Name: req.body.Name,
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday,
+        name: req.body.name,
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email,
+        birthday: req.body.birthday,
+        favMovies: req.body.favMovies,
       },
     },
     { new: true }
@@ -601,11 +607,11 @@ app.put("/users/:name", async (req, res) => {
 });
 
 //Add new movie to User's favorites:
-app.post("/users/:name/movies/:MovieID", async (req, res) => {
+app.post("/users/:name/movies/:movieID", async (req, res) => {
   await Users.findOneAndUpdate(
     { name: req.params.name },
     {
-      $push: { favMovies: req.params.MovieID },
+      $push: { favMovies: req.params.movieID },
     },
     { new: true }
   )
@@ -618,7 +624,7 @@ app.post("/users/:name/movies/:MovieID", async (req, res) => {
     });
 });
 
-// Delete user by username
+// Delete user by name
 app.delete("/users/:name", async (req, res) => {
   await Users.findOneAndDelete({ name: req.params.name })
     .then((user) => {
