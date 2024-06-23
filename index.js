@@ -610,7 +610,7 @@ app.post("/users/:username/movies/:movieID", async (req, res) => {
   await Users.findOneAndUpdate(
     { Username: req.params.username },
     {
-      $push: { favMovies: req.params.movieID },
+      $push: { FavoriteMovies: req.params.movieID },
     },
     { new: true }
   )
@@ -629,7 +629,7 @@ app.delete("/users/:username/movies/:movieID", async (req, res) => {
     const updatedUser = await Users.findOneAndUpdate(
       { Username: req.params.username },
       {
-        $pull: { favMovies: req.params.movieID },
+        $pull: { FavoriteMovies: req.params.movieID },
       },
       { new: true }
     );
