@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
+const { check, validationResult } = require("express-validator");
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -24,6 +25,24 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something broke!");
 });
 app.use(express.static("public"));
+
+//CORS
+const cors = require("cors");
+let allowedOrigins = ["http://localhost:8080", "http://testsite.com"];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        let message =
+          "The CORS policiy of this application does not allow access from the origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 //User authorization
 let auth = require("./auth.js")(app);
@@ -556,32 +575,27 @@ app.get(
   }
 );
 
-//GET list of all users
-//Should I just delete this one?
-app.get(
-  "/users",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  async (req, res) => {
-    await Users.find()
-      .then((users) => {
-        res.status(201).json(users);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error:" + err);
-      });
-  }
-);
-
 // Add new user
 app.post(
   "/users",
   passport.authenticate("jwt", {
     session: false,
   }),
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters. Try something else"
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "email does not appear to be valid").isEmail(),
+  ],
   async (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOne({ Name: req.body.Name })
       .then((user) => {
         if (user) {
