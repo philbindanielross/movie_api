@@ -28,7 +28,7 @@ app.use(express.static("public"));
 
 //CORS
 const cors = require("cors");
-let allowedOrigins = ["http://localhost:8080", "http://testsite.com"];
+//let allowedOrigins = ["http://localhost:8080", "http://testsite.com"];
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -578,9 +578,6 @@ app.get(
 // Add new user
 app.post(
   "/users",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
   [
     check("Username", "Username is required").isLength({ min: 5 }),
     check(
@@ -605,7 +602,7 @@ app.post(
           Users.create({
             Username: req.body.Username,
             Name: req.body.Name,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday,
             FavoriteMovies: req.body.FavoriteMovies,
@@ -660,6 +657,14 @@ app.get(
 app.put(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters. Try something else"
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+  ],
   async (req, res) => {
     if (req.user.Username != req.params.username) {
       return res.status(400).send("You don't have clearance for this action");
@@ -670,7 +675,7 @@ app.put(
         $set: {
           Name: req.body.Name,
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: req.body.Password, //does this need to be Password: hashedPassword?
           Email: req.body.email,
           Birthday: req.body.Birthday,
         },
@@ -773,6 +778,7 @@ app.delete(
 );
 
 //app listen
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080.");
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Your app is listening on port ${port}.`);
 });
