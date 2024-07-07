@@ -11,7 +11,11 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 //Connect Mongo Database
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+//   useNewURLParser: true,
+//   useUnifiedTopology: true,
+// });
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewURLParser: true,
   useUnifiedTopology: true,
 });
@@ -782,3 +786,7 @@ const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log(`Your app is listening on port ${port}.`);
 });
+
+// mongoimport --uri 'mongodb+srv://philbindanielr:mucamuca@favoritemoviesapi.3aejpee.mongodb.net/myFlixDB?authSource=admin' --collection movies --type json --file ../movie_api/moviesCollection.json
+
+// mongoimport --uri 'mongodb+srv://philbindanielr:mucamuca@favoritemoviesapi.3aejpee.mongodb.net/myFlixDB?authSource=admin' --collection users --type json --file ../movie_api/usersCollection.json
