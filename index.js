@@ -597,14 +597,14 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
-    await Users.findOne({ Username: req.body.Username })
+    await Users.findOne({ Username: req.body.username })
       .then((user) => {
         if (user) {
           console.log(user);
-          return res.status(400).send(req.body.Username + " already exists.");
+          return res.status(400).send(req.body.username + " already exists.");
         } else {
           Users.create({
-            Username: req.body.Username,
+            Username: req.body.username,
             Name: req.body.Name,
             Password: hashedPassword,
             Email: req.body.Email,
