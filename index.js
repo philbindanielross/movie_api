@@ -597,14 +597,14 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
-    await Users.findOne({ Username: req.body.username })
+    await Users.findOne({ Username: req.body.Username })
       .then((user) => {
         if (user) {
           console.log(user);
-          return res.status(400).send(req.body.username + " already exists.");
+          return res.status(400).send(req.body.Username + " already exists.");
         } else {
           Users.create({
-            Username: req.body.username,
+            Username: req.body.Username,
             Name: req.body.Name,
             Password: hashedPassword,
             Email: req.body.Email,
@@ -643,10 +643,10 @@ app.get(
     session: false,
   }),
   async (req, res) => {
-    if (req.user.Username != req.params.username) {
+    if (req.user.Username != req.params.Username) {
       return res.status(400).send("You don't have clearance for this action");
     }
-    await Users.findOne({ Username: req.params.username })
+    await Users.findOne({ Username: req.params.Username })
       .then((user) => {
         res.json(user);
       })
@@ -670,11 +670,11 @@ app.put(
     check("Password", "Password is required").not().isEmpty(),
   ],
   async (req, res) => {
-    if (req.user.Username != req.params.username) {
+    if (req.user.Username != req.params.Username) {
       return res.status(400).send("You don't have clearance for this action");
     }
     await Users.findOneAndUpdate(
-      { Username: req.params.username },
+      { Username: req.params.Username },
       {
         $set: {
           Name: req.body.Name,
@@ -713,7 +713,7 @@ app.post(
   }),
   async (req, res) => {
     await Users.findOneAndUpdate(
-      { Username: req.params.username },
+      { Username: req.params.Username },
       {
         $push: { FavoriteMovies: req.params.movieID },
       },
@@ -738,7 +738,7 @@ app.delete(
   async (req, res) => {
     try {
       const updatedUser = await Users.findOneAndUpdate(
-        { Username: req.params.username },
+        { Username: req.params.Username },
         {
           $pull: { FavoriteMovies: req.params.movieID },
         },
@@ -766,12 +766,12 @@ app.delete(
     session: false,
   }),
   async (req, res) => {
-    await Users.findOneAndDelete({ Username: req.params.username })
+    await Users.findOneAndDelete({ Username: req.params.Username })
       .then((user) => {
         if (!user) {
-          res.status(400).send(req.params.username + " was not found");
+          res.status(400).send(req.params.Username + " was not found");
         } else {
-          res.status(200).send(req.params.username + " was deleted");
+          res.status(200).send(req.params.Username + " was deleted");
         }
       })
       .catch((err) => {
