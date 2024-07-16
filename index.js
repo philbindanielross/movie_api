@@ -590,7 +590,7 @@ app.post(
 
 //Find a user by username
 app.get(
-  "/users/:username",
+  "/users/:Username",
   passport.authenticate("jwt", {
     session: false,
   }),
@@ -611,7 +611,7 @@ app.get(
 
 // Edit user info
 app.put(
-  "/users/:username",
+  "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   [
     check("Username", "Username is required").isLength({ min: 5 }),
@@ -652,7 +652,7 @@ app.put(
 
 //Add new movie to User's favorites:
 app.post(
-  "/users/:username/movies/:movieID",
+  "/users/:Username/movies/:movieID",
   passport.authenticate("jwt", {
     session: false,
   }),
@@ -676,7 +676,7 @@ app.post(
 
 //Delete movie from User's favorites:
 app.delete(
-  "/users/:username/movies/:movieID",
+  "/users/:Username/movies/:movieID",
   passport.authenticate("jwt", {
     session: false,
   }),
@@ -706,7 +706,7 @@ app.delete(
 
 // Delete user by name
 app.delete(
-  "/users/:username",
+  "/users/:Username",
   passport.authenticate("jwt", {
     session: false,
   }),
