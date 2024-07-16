@@ -620,19 +620,21 @@ app.put(
       "Username contains non alphanumeric characters. Try something else"
     ).isAlphanumeric(),
     check("Password", "Password is required").not().isEmpty(),
+    check("Email", "email does not appear to be valid").isEmail(),
   ],
   async (req, res) => {
-    if (req.user.Username != req.params.Username) {
+    if (req.user.Username !== req.params.Username) {
       return res.status(400).send("You don't have clearance for this action");
     }
+    let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
         $set: {
           Name: req.body.Name,
           Username: req.body.Username,
-          Password: req.body.Password, //does this need to be Password: hashedPassword?
-          Email: req.body.email,
+          Password: hashedPassword,
+          Email: req.body.Email,
           Birthday: req.body.Birthday,
         },
       },
