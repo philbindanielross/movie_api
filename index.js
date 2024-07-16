@@ -11,10 +11,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 //Connect Mongo Database
-// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-//   useNewURLParser: true,
-//   useUnifiedTopology: true,
-// });
+
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewURLParser: true,
   useUnifiedTopology: true,
@@ -32,21 +29,8 @@ app.use(express.static("public"));
 
 //CORS
 const cors = require("cors");
-//let allowedOrigins = ["http://localhost:8080", "http://testsite.com"];
-app.use(
-  cors({
-    // origin: (origin, callback) => {
-    //   if (!origin) return callback(null, true);
-    //   if (allowedOrigins.indexOf(origin) === -1) {
-    //     let message =
-    //       "The CORS policiy of this application does not allow access from the origin " +
-    //       origin;
-    //     return callback(new Error(message), false);
-    //   }
-    //   return callback(null, true);
-    // },
-  })
-);
+
+app.use(cors({}));
 
 //User authorization
 let auth = require("./auth.js")(app);
@@ -387,19 +371,6 @@ app.get(
 );
 
 // Add a new movie to the list
-// app.post("/movies", (req, res) => {
-//   let newMovie = req.body;
-//   if (!newMovie.name) {
-//     const message = "Missing name in request body";
-//     res.status(400).send(message);
-//   } else {
-//     newMovie.id = uuid.v4();
-//     movies.push(newMovie);
-//     d;
-//     res.status(201).send(newMovie);
-//   }
-// });
-// NEW:
 app.post(
   "/movies",
   passport.authenticate("jwt", {
@@ -551,17 +522,7 @@ app.get(
 );
 
 // Find a director by name
-// //originoal code:
-// app.get("/directors/:name", (req, res) => {
-//   const { directorName } = req.params;
-//   const director = movies.find((movie) => movie.director.name === directorName);
-//   if (director) {
-//     res.status(200).json(director);
-//   } else {
-//     res.status(400).send("no such director name");
-//   }
-// });
-//new:
+
 app.get(
   "/directors/:directorName",
   passport.authenticate("jwt", {
@@ -626,15 +587,6 @@ app.post(
       });
   }
 );
-//JUST SO I HAVE IT SOMEWHERE:
-// let newUser = req.body;
-// if (!newUser.name) {
-//   const message = "Missing name in request body";
-//   res.status(400).send(message);
-// } else {
-//   newUser.id = uuid.v4();
-//   res.status(201).send(newUser);
-// }
 
 //Find a user by username
 app.get(
@@ -643,7 +595,7 @@ app.get(
     session: false,
   }),
   async (req, res) => {
-    if (req.user.Username != req.params.Username) {
+    if (req.user.Username !== req.params.Username) {
       return res.status(400).send("You don't have clearance for this action");
     }
     await Users.findOne({ Username: req.params.Username })
@@ -693,15 +645,6 @@ app.put(
         console.error(err);
         res.status(500).send("Error:" + err);
       });
-    //old code:
-    // let user = users.find((user) => {
-    //   return user.name === req.params.name;
-    // });
-    // if (user) {
-    //   user.password === req.params.password;
-    // } else {
-    //   res.status(404).send(`User with a name of ${user.name} was not found.`);
-    // }
   }
 );
 
@@ -786,7 +729,3 @@ const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log(`Your app is listening on port ${port}.`);
 });
-
-// mongoimport --uri 'mongodb+srv://philbindanielr:mucamuca@favoritemoviesapi.3aejpee.mongodb.net/myFlixDB?authSource=admin' --collection movies --type json --file ../movie_api/moviesCollection.json
-
-// mongoimport --uri 'mongodb+srv://philbindanielr:mucamuca@favoritemoviesapi.3aejpee.mongodb.net/myFlixDB?authSource=admin' --collection users --type json --file ../movie_api/usersCollection.json
