@@ -358,8 +358,8 @@ app.get(
 
   async (req, res) => {
     await Movies.find()
-      .then((users) => {
-        res.status(201).json(users);
+      .then((movies) => {
+        res.status(201).json(movies);
       })
       .catch((err) => {
         console.error(err);
