@@ -355,9 +355,7 @@ app.get("/documentation", (req, res) => {
 // List all movies
 app.get(
   "/movies",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   async (req, res) => {
     await Movies.find()
       .then((users) => {
@@ -373,9 +371,7 @@ app.get(
 // Add a new movie to the list
 app.post(
   "/movies",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   async (req, res) => {
     await Movies.findOne({ Title: req.body.Title })
       .then((movie) => {
@@ -409,9 +405,7 @@ app.post(
 // Delete a movie from the list
 app.delete(
   "/movies/:title",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   (req, res) => {
     let movie = Movies.find((movie) => {
       return Movies.Title === req.params.title;
@@ -428,9 +422,7 @@ app.delete(
 // Find a specific movie by title
 app.get(
   "/movies/:title",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   async (req, res) => {
     await Movies.findOne({ Title: req.params.title })
       .then((title) => {
@@ -446,9 +438,7 @@ app.get(
 // List of all genres
 app.get(
   "/genres",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   async (req, res) => {
     await Movies.aggregate([
       {
@@ -472,9 +462,7 @@ app.get(
 // Find a specific genre by name
 app.get(
   "/genres/:genreName",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   async (req, res) => {
     await Movies.find({ "Genre.Name": req.params.genreName })
       .then((genreName) => {
@@ -490,9 +478,7 @@ app.get(
 // List of all directors
 app.get(
   "/directors",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   async (req, res) => {
     try {
       let directors = await Movies.aggregate([
@@ -525,9 +511,7 @@ app.get(
 
 app.get(
   "/directors/:directorName",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+
   async (req, res) => {
     await Movies.find({ "Director.Name": req.params.directorName })
       .then((directorName) => {
