@@ -353,21 +353,29 @@ app.get("/documentation", (req, res) => {
 });
 
 // List all movies
-app.get("/movies", async (req, res) => {
-  await Movies.find()
-    .then((users) => {
-      res.status(201).json(users);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async (req, res) => {
+    await Movies.find()
+      .then((users) => {
+        res.status(201).json(users);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Add a new movie to the list
 app.post(
   "/movies",
-
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   async (req, res) => {
     await Movies.findOne({ Title: req.body.Title })
       .then((movie) => {
@@ -420,7 +428,9 @@ app.delete(
 // Find a specific movie by title
 app.get(
   "/movies/:title",
-
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   async (req, res) => {
     await Movies.findOne({ Title: req.params.title })
       .then((title) => {
@@ -436,7 +446,9 @@ app.get(
 // List of all genres
 app.get(
   "/genres",
-
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   async (req, res) => {
     await Movies.aggregate([
       {
@@ -460,7 +472,9 @@ app.get(
 // Find a specific genre by name
 app.get(
   "/genres/:genreName",
-
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   async (req, res) => {
     await Movies.find({ "Genre.Name": req.params.genreName })
       .then((genreName) => {
@@ -476,7 +490,9 @@ app.get(
 // List of all directors
 app.get(
   "/directors",
-
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   async (req, res) => {
     try {
       let directors = await Movies.aggregate([
@@ -509,7 +525,9 @@ app.get(
 
 app.get(
   "/directors/:directorName",
-
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   async (req, res) => {
     await Movies.find({ "Director.Name": req.params.directorName })
       .then((directorName) => {
